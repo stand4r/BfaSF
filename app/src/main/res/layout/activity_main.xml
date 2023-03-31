@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
+    android:visibility="visible"
     tools:context=".MainActivity">
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_width="148dp"
         android:layout_height="48dp"
         android:background="@drawable/gradientbutton"
+        android:onClick="search"
         android:text="Поиск"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -42,13 +44,16 @@
         android:id="@+id/bookInput"
         android:layout_width="190dp"
         android:layout_height="48dp"
-        android:layout_marginTop="160dp"
+        android:capitalize="words"
         android:singleLine="true"
+        android:textAlignment="textStart"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.213" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -56,6 +61,9 @@
         android:layout_height="457dp"
         android:background="@drawable/gradientscroll"
         android:clickable="true"
+        android:paddingTop="5px"
+        android:paddingBottom="5px"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,11 +74,51 @@
             android:id="@+id/Lay1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20px"
+            android:layout_marginBottom="20px"
             android:orientation="vertical">
 
 
         </LinearLayout>
     </ScrollView>
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="150dp"
+        android:layout_height="41dp"
+        android:text="Книги / Авторы"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.281" />
+
+    <ImageButton
+        android:id="@+id/speakButton"
+        android:layout_width="102dp"
+        android:layout_height="40dp"
+        android:background="@drawable/gradientbutton"
+        android:onClick="speak"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.286"
+        app:srcCompat="@drawable/mic" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="367dp"
+        android:layout_height="110dp"
+        android:background="@drawable/backgroundsearch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.217" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
