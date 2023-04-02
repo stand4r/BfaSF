@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.view.Gravity.*
 import android.view.View
 import android.view.View.*
@@ -24,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.io.File
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -407,5 +409,40 @@ class MainActivity : AppCompatActivity() {
         card.addView(txt)
         parentLayout.addView(card)
         scroll.visibility = VISIBLE
+    }
+
+    // ---------------------------------- FLIBUSTA -------------------------------------------------
+    public fun cl(view: View) {
+        val name = findViewById<TextInputEditText>(R.id.bookInput)
+        searchBookFlibusta(name.text.toString())
+    }
+
+    private fun searchBookFlibusta(name: String) {
+        val scroll = findViewById<ScrollView>(R.id.scrollView2)
+        scroll.visibility = VISIBLE
+        thread {
+            val res: Connection.Response = Jsoup
+                .connect("https://flibusta.is/booksearch?ask=$name")
+                .method(Connection.Method.GET)
+                .execute()
+            val doc: Document = res.parse()
+            val divs = doc.select("li")
+            for (i in divs) {
+                try {
+                    val hrefs = i.select("a")
+                    val bookName = hrefs[0].select("span").text()
+                    val author = hrefs[1].text()
+                    val urlId = hrefs[0].attr("href")
+                    if (bookName != "") {
+                        runOnUiThread {
+                            addCard(
+                                bookName,
+                                "https://flibusta$urlId/download", author
+                            )
+                        }
+                    }
+                } catch (e: java.lang.Exception) { }
+            }
+        }
     }
 }
