@@ -1,16 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.BoaSF" parent="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="Theme.BoaSF" parent="@style/Theme.AppCompat.Light">
+        <item name="colorPrimary">#3759D6</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorSecondaryInverse">@color/white</item>
+        <item name="android:textColorTertiary">@color/white</item>
+        <item name="android:textColorTertiaryInverse">@color/white</item>
+        <item name="android:textColorHighlight">@color/white</item>
+        <item name="android:textColorPrimaryInverseDisableOnly">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHintInverse">@color/white</item>
+        <item name="android:textColorLink">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
     </style>
 </resources>
