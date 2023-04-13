@@ -24,51 +24,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.039" />
 
-    <Button
-        android:id="@+id/buttonSearch"
-        android:layout_width="148dp"
-        android:layout_height="48dp"
-        android:background="@drawable/gradientbutton"
-        android:onClick="cl"
-        android:text="Поиск"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.939"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/bookInput"
-        android:layout_width="190dp"
-        android:layout_height="48dp"
-        android:capitalize="words"
-        android:singleLine="true"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="356dp"
-        android:layout_height="457dp"
-        android:background="@drawable/gradientscroll"
+        android:layout_width="391dp"
+        android:layout_height="460dp"
         android:clickable="true"
-        android:paddingTop="5px"
-        android:paddingBottom="5px"
-        android:visibility="invisible"
+        android:paddingTop="10px"
+        android:paddingBottom="10px"
+        android:scrollbars="none"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.946">
+        app:layout_constraintVertical_bias="0.955">
 
         <LinearLayout
             android:id="@+id/Lay1"
@@ -82,43 +52,105 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/countTv"
+        android:layout_width="164dp"
+        android:layout_height="28dp"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.328" />
+
+    <LinearLayout
+        android:layout_width="348dp"
+        android:layout_height="44dp"
+        android:layout_marginVertical="10px"
+        android:background="@drawable/gradientscroll"
+        android:elevation="25px"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="10px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.183">
+
+        <ImageButton
+            android:id="@+id/speakButton"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:onClick="speak"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.286"
+            app:srcCompat="@drawable/mic" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bookInput"
+            android:layout_width="189dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:capitalize="words"
+            android:hint="Название книги или автор"
+            android:paddingRight="15px"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.257"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.341" />
+
+        <Button
+            android:id="@+id/buttonSearch"
+            android:layout_width="108dp"
+            android:layout_height="34dp"
+            android:background="@drawable/gradientbutton"
+            android:drawableEnd="@drawable/baseline_search_24"
+            android:drawableTintMode="src_atop"
+            android:onClick="search"
+            android:paddingRight="20px"
+            android:text="Поиск"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.939"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.213" />
+    </LinearLayout>
+
     <Switch
         android:id="@+id/switch1"
         android:layout_width="150dp"
-        android:layout_height="41dp"
+        android:layout_height="35dp"
+        android:background="@android:color/transparent"
         android:text="Книги / Авторы"
+        android:textColor="#EFEFEF"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintHorizontal_bias="0.881"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.281" />
-
-    <ImageButton
-        android:id="@+id/speakButton"
-        android:layout_width="102dp"
-        android:layout_height="40dp"
-        android:background="@drawable/gradientbutton"
-        android:onClick="speak"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286"
-        app:srcCompat="@drawable/mic" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="367dp"
-        android:layout_height="110dp"
-        android:background="@drawable/backgroundsearch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.217" />
+        app:layout_constraintVertical_bias="0.26" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
