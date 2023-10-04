@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     android:visibility="visible"
-    tools:context=".MainActivity">
+    tools:context=".SearchActivity">
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
-        android:fontFamily="casual"
-        android:text="BoaSF"
+        android:layout_width="400dp"
+        android:layout_height="90dp"
+        android:fontFamily="monospace"
+        android:text="Поиск"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -22,54 +22,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
-
-
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="391dp"
-        android:layout_height="460dp"
-        android:clickable="true"
-        android:paddingTop="10px"
-        android:paddingBottom="10px"
-        android:scrollbars="none"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955">
-
-        <LinearLayout
-            android:id="@+id/Lay1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20px"
-            android:layout_marginBottom="20px"
-            android:orientation="vertical">
-
-
-        </LinearLayout>
-    </ScrollView>
-
-    <TextView
-        android:id="@+id/countTv"
-        android:layout_width="164dp"
-        android:layout_height="28dp"
-        android:textSize="15sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.328" />
+        app:layout_constraintVertical_bias="0.072" />
 
     <LinearLayout
         android:layout_width="348dp"
         android:layout_height="44dp"
         android:layout_marginVertical="10px"
-        android:background="@drawable/gradientscroll"
+        android:background="@drawable/gradientsearch"
         android:elevation="25px"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -79,7 +38,7 @@
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.183">
+        app:layout_constraintVertical_bias="0.206">
 
         <ImageButton
             android:id="@+id/speakButton"
@@ -119,10 +78,11 @@
             android:id="@+id/buttonSearch"
             android:layout_width="108dp"
             android:layout_height="34dp"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/gradientbutton"
             android:drawableEnd="@drawable/baseline_search_24"
             android:drawableTintMode="src_atop"
-            android:onClick="search"
+            android:onClick="btnSearch"
             android:paddingRight="20px"
             android:text="Поиск"
             android:textAlignment="center"
@@ -137,20 +97,32 @@
             app:layout_constraintVertical_bias="0.213" />
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:background="@android:color/transparent"
-        android:text="Книги / Авторы"
-        android:textColor="#EFEFEF"
-        android:textSize="14sp"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="412dp"
+        android:layout_height="497dp"
+        android:clickable="true"
+        android:paddingTop="10px"
+        android:paddingBottom="10px"
+        android:scrollbars="none"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.881"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.983">
+
+        <LinearLayout
+            android:id="@+id/Lay1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20px"
+            android:layout_marginBottom="20px"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
