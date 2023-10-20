@@ -13,17 +13,18 @@
         android:layout_width="348dp"
         android:layout_height="44dp"
         android:layout_marginVertical="10px"
+        android:layout_marginBottom="104dp"
         android:background="@drawable/gradientsearch"
-        android:elevation="25px"
+        android:elevation="25dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingVertical="10px"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintVertical_bias="0.535">
 
         <ImageButton
             android:id="@+id/speakButton"
@@ -42,16 +43,16 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/bookInput"
-            android:layout_width="189dp"
-            android:layout_height="48dp"
+            android:layout_width="193dp"
+            android:layout_height="44dp"
             android:background="@android:color/transparent"
             android:capitalize="words"
             android:hint="Название жанра"
-            android:paddingRight="15px"
+            android:paddingRight="15dp"
             android:singleLine="true"
             android:textAlignment="textStart"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.257"
@@ -63,7 +64,7 @@
             android:id="@+id/btnSearch"
             android:layout_width="108dp"
             android:layout_height="34dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/gradientbutton"
             android:drawableEnd="@drawable/baseline_search_24"
             android:drawableTintMode="src_atop"
@@ -73,44 +74,47 @@
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.939"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.213" />
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="336dp"
-        android:layout_height="91dp"
-        android:fontFamily="monospace"
+        android:layout_width="180dp"
+        android:layout_height="58dp"
+        android:fontFamily="sans-serif-light"
         android:text="Каталог"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="48sp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="376dp"
-        android:layout_height="466dp"
-        android:clickable="true"
-        android:paddingTop="10px"
-        android:paddingBottom="10px"
-        android:scrollbars="none"
-        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="579dp"
+        android:layout_marginHorizontal="1dp"
+        android:background="@drawable/gradienhistory"
+        android:overScrollMode="ifContentScrolls"
+        android:nestedScrollingEnabled="false"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
@@ -127,21 +131,32 @@
         </LinearLayout>
     </ScrollView>
 
+    <com.yandex.mobile.ads.banner.BannerAdView
+        android:id="@+id/adView2"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/GenreTv"
-        android:layout_width="375dp"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="#ECECEC"
-        android:textSize="25sp"
+        android:textSize="25dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.284"
+        app:layout_constraintVertical_bias="0.793"
         tools:text="Жанр:" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

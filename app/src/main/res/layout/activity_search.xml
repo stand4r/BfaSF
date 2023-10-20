@@ -8,23 +8,26 @@
     android:visibility="visible"
     tools:context=".SearchActivity">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="400dp"
-        android:layout_height="90dp"
-        android:fontFamily="monospace"
-        android:text="Поиск"
-        android:textAlignment="center"
+    <Button
+        android:id="@+id/books"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="52dp"
+        android:background="@android:color/transparent"
+        android:onClick="booksView"
+        android:enabled="false"
+        android:text="Книги"
         android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="348dp"
         android:layout_height="44dp"
         android:layout_marginVertical="10px"
@@ -35,10 +38,10 @@
         android:paddingVertical="10px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206">
+        app:layout_constraintVertical_bias="0.141">
 
         <ImageButton
             android:id="@+id/speakButton"
@@ -66,7 +69,7 @@
             android:singleLine="true"
             android:textAlignment="textStart"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.257"
@@ -88,34 +91,61 @@
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.939"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.213" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:layout_marginBottom="139dp"
+            android:text="Button" />
+
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="29dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:rotation="90"
+        android:scaleX="2"
+        android:scaleY="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.964"
+        app:srcCompat="@drawable/baseline_remove_24" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="412dp"
-        android:layout_height="497dp"
+        android:layout_width="388dp"
+        android:layout_height="544dp"
         android:clickable="true"
         android:paddingTop="10px"
         android:paddingBottom="10px"
         android:scrollbars="none"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.983">
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:id="@+id/Lay1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20px"
             android:layout_marginBottom="20px"
             android:orientation="vertical">
@@ -123,6 +153,72 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="388dp"
+        android:layout_height="544dp"
+        android:clickable="true"
+        android:paddingTop="10px"
+        android:paddingBottom="10px"
+        android:scrollbars="none"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:id="@+id/Lay2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20px"
+            android:layout_marginBottom="20px"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Поиск"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/authors"
+        android:layout_width="150dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="52dp"
+        android:background="@android:color/transparent"
+        android:onClick="authorsView"
+        android:outlineProvider="none"
+        android:pointerIcon="none"
+        android:enabled="false"
+        android:text="Авторы"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

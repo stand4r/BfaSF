@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.BoaSF" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#3759D6</item>
+        <item name="android:windowSplashScreenBackground">#36A8FF</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimaryInverse">@color/white</item>

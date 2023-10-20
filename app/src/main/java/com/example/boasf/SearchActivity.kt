@@ -3,6 +3,7 @@
 package com.example.boasf
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
@@ -14,13 +15,14 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.view.Gravity.*
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.Menu
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -29,7 +31,7 @@ import com.google.android.material.textfield.TextInputEditText
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import java.io.File
+import java.lang.Thread.sleep
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -44,10 +46,22 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         supportActionBar?.title = "BoaSF"
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
             val uri: Uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID)
             startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
+        }
+        val editText = findViewById<View>(R.id.bookInput) as EditText
+        editText.setOnKeyListener { _, keyCode, _ ->
+            var consumed = false
+            if (keyCode == KEYCODE_ENTER) {
+                this.currentFocus?.let { view ->
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                    imm?.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+                search()
+                consumed = true
+            }
+            consumed
         }
     }
 
@@ -66,14 +80,23 @@ class SearchActivity : AppCompatActivity() {
         } else {
             finish()
         }
+        overridePendingTransition(R.anim.slide_out_bottom_rev, R.anim.slide_in_bottom_rev)
     }
 
     fun btnSearch(view: View) {
         search()
+        val unbut = findViewById<Button>(R.id.books)
+        unbut.isEnabled = true
+        val but = findViewById<Button>(R.id.authors)
+        but.isEnabled = true
     }
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun search() {
+        this.currentFocus?.let { view ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        }
         flag = false
         val scrollView = findViewById<ScrollView>(R.id.scrollView2)
         val scrollLayout = findViewById<LinearLayout>(R.id.Lay1)
@@ -81,34 +104,52 @@ class SearchActivity : AppCompatActivity() {
         val nameInput = findViewById<TextInputEditText>(R.id.bookInput)
         btnSearch.isEnabled = false
         val name = nameInput.text.toString()
-        if (name in arrayListOf("05.07.2019", "05072019", "05.07.19", "050719", "572019")) {
-            openViewLove()
-        } else {
-            if (name != "") {
-                try {
-                    scrollLayout.removeAllViews()
-                } catch (_: Exception) {
-                }
-                thread {
-                    addCardAuthor()
-                    getAuthors(name)
-                    addCardBook()
-                    getBooks(name)
-                }
-                scrollView.visibility = VISIBLE
-            } else {
-                try {
-                    scrollLayout.removeAllViews()
-                } catch (_: Exception) {
-                }
-                addInputEmpty()
+        if (name != "") {
+            try {
+                scrollLayout.removeAllViews()
+            } catch (_: Exception) {
             }
-            btnSearch.isEnabled = true
+            thread {
+                getAuthors(name)
+                getBooks(name)
+            }
+            scrollView.visibility = VISIBLE
+        } else {
+            try {
+                scrollLayout.removeAllViews()
+            } catch (_: Exception) {
+            }
+            addInputEmpty()
         }
+        btnSearch.isEnabled = true
     }
 
-    private fun openViewLove() {
-        val intent = Intent()
+    fun authorsView (view: View) {
+        val scroll = findViewById<ScrollView>(R.id.scrollView2)
+        val unscroll = findViewById<ScrollView>(R.id.scrollView3)
+        val but = findViewById<Button>(R.id.authors)
+        val unbut = findViewById<Button>(R.id.books)
+        scroll.visibility = VISIBLE
+        unscroll.visibility = INVISIBLE
+        but.isEnabled = false
+        unbut.isEnabled = true
+        but.typeface = DEFAULT_BOLD
+        but.textSize = 19F
+        unbut.textSize = 15F
+    }
+
+    fun booksView (view: View) {
+        val scroll = findViewById<ScrollView>(R.id.scrollView2)
+        val unscroll = findViewById<ScrollView>(R.id.scrollView3)
+        val but = findViewById<Button>(R.id.authors)
+        val unbut = findViewById<Button>(R.id.books)
+        scroll.visibility = INVISIBLE
+        unscroll.visibility = VISIBLE
+        but.isEnabled = true
+        unbut.isEnabled = false
+        unbut.typeface = DEFAULT_BOLD
+        unbut.textSize = 19F
+        but.textSize = 15F
     }
 
     // -------------------------------------------------Microphone----------------------------------
@@ -154,6 +195,7 @@ class SearchActivity : AppCompatActivity() {
             val divs = doc.select("div.card_info")
             if (divs.size != 0) {
                 for (i in 0 until divs.size) {
+                    sleep(50)
                     runOnUiThread {
                         val nameBook = divs[i].select("div.book_name").select("a").text().toString()
                         val urlBook = divs[i].select("a.btn").attr("href").toString()
@@ -162,11 +204,13 @@ class SearchActivity : AppCompatActivity() {
                         } else {
                             divs[i].select("span").text().toString()
                         }
-                        addCard(
-                            nameBook,
-                            urlBook,
-                            genreBook
-                        )
+                        if ("Черт из табакерки" !in nameBook) {
+                            addCard(
+                                nameBook,
+                                urlBook,
+                                genreBook
+                            )
+                        }
                     }
                 }
             } else {
@@ -175,32 +219,95 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun addCardAuthor() {
-        runOnUiThread {
-            val parentLayout = findViewById<LinearLayout>(R.id.Lay1)
-            val txt = TextView(this)
-            txt.text = "Авторы"
-            txt.textSize = 27F
-            txt.textAlignment = TEXT_ALIGNMENT_CENTER
-            txt.setPadding(0, toPx(50), 0, toPx(17))
-            parentLayout.addView(txt)
-        }
-    }
+    @SuppressLint("SetTextI18n")
+    private fun addCard(name: String, url: String, author: String) {
+        val parentLayout = findViewById<LinearLayout>(R.id.Lay2)
+        val card = CardView(this)
+        val linear = LinearLayout(this)
+        val txt = TextView(this)
+        val btn = Button(this)
+        val txtGenre = TextView(this)
+        val linearParent = LinearLayout(this)
 
-    private fun addCardBook() {
-        runOnUiThread {
-            val parentLayout = findViewById<LinearLayout>(R.id.Lay1)
-            val txt = TextView(this)
-            txt.text = "Книги"
-            txt.textSize = 25F
-            txt.textAlignment = TEXT_ALIGNMENT_CENTER
-            txt.setPadding(0, toPx(50), 0, toPx(17))
-            parentLayout.addView(txt)
+
+        val params = LinearLayout.LayoutParams(
+            WRAP_CONTENT,
+            WRAP_CONTENT
+        )
+        params.gravity = CENTER
+        params.setMargins(0, 0, 0, toPx(20))
+        card.layoutParams = params
+        card.radius = 20.0F
+        card.useCompatPadding = true
+        card.elevation = 25.0F
+
+
+        val params3 = LinearLayout.LayoutParams(
+            WRAP_CONTENT,
+            WRAP_CONTENT
+        )
+        linearParent.layoutParams = params3
+        linearParent.orientation = LinearLayout.VERTICAL
+        linearParent.setBackgroundColor(parseColor("#5777CA"))
+
+        val params2 = LinearLayout.LayoutParams(
+            MATCH_PARENT,
+            WRAP_CONTENT
+        )
+        params2.setMargins(15, 0, 0, 10)
+        linear.layoutParams = params2
+        linear.orientation = LinearLayout.HORIZONTAL
+        linear.gravity = TOP
+        linear.setBackgroundColor(parseColor("#5777CA"))
+
+
+        txt.textSize = 15.0F
+        txt.setTextColor(Color.WHITE)
+        txt.text = name
+        txt.setTypeface(null, BOLD)
+        txt.minLines = 1
+        txt.maxLines = 2
+        txt.textAlignment = TEXT_ALIGNMENT_TEXT_START
+        txt.height = toPx(55)
+        txt.width = toPx(255)
+        txt.setPadding(toPx(5), 0, toPx(10), 5)
+        txt.gravity = CENTER_HORIZONTAL and CENTER_VERTICAL
+
+
+        btn.width = toPx(35)
+        btn.height = WRAP_CONTENT
+        btn.text = "Подробнее"
+        btn.setPadding(0, 0, toPx(10), 0)
+        btn.setBackgroundColor(parseColor("#7734699B"))
+        btn.setTextColor(Color.WHITE)
+        btn.isAllCaps = false
+        btn.textSize = 12.0F
+        btn.setOnClickListener {
+            optionBook(url, name)
         }
+
+        txtGenre.textSize = 14.0F
+        txtGenre.setTextColor(parseColor("#ECECEC"))
+        txtGenre.text = "       $author"
+        txtGenre.isSingleLine = true
+        txtGenre.textAlignment = TEXT_ALIGNMENT_TEXT_START
+        txtGenre.setTypeface(null, ITALIC)
+        txtGenre.height = toPx(33)
+        txtGenre.width = toPx(310)
+        txtGenre.setPadding(0, toPx(7), toPx(20), 0)
+        txtGenre.gravity = CENTER_VERTICAL and CENTER_HORIZONTAL
+
+
+        linear.addView(txt)
+        linear.addView(btn)
+        linearParent.addView(linear)
+        linearParent.addView(txtGenre)
+        card.addView(linearParent)
+        parentLayout.addView(card)
     }
 
     @SuppressLint("SetTextI18n")
-    private fun addCard(name: String, url: String, author: String) {
+    private fun addCardAuthors(name: String, url: String, author: String) {
         val parentLayout = findViewById<LinearLayout>(R.id.Lay1)
         val card = CardView(this)
         val linear = LinearLayout(this)
@@ -254,16 +361,16 @@ class SearchActivity : AppCompatActivity() {
         txt.gravity = CENTER_HORIZONTAL and CENTER_VERTICAL
 
 
-        btn.width = toPx(30)
+        btn.width = toPx(35)
         btn.height = WRAP_CONTENT
-        btn.text = "Скачать"
+        btn.text = "Подробнее"
         btn.setPadding(0, 0, toPx(10), 0)
         btn.setBackgroundColor(parseColor("#7734699B"))
         btn.setTextColor(Color.WHITE)
         btn.isAllCaps = false
-        btn.textSize = 14.0F
+        btn.textSize = 12.0F
         btn.setOnClickListener {
-            downloadBook(url, name)
+            optionBook(url, name)
         }
 
         txtGenre.textSize = 14.0F
@@ -286,57 +393,11 @@ class SearchActivity : AppCompatActivity() {
         parentLayout.addView(card)
     }
 
-    private fun downloadBook(url: String, name: String) {
-        var flag = false
-        thread {
-            for (i in arrayListOf("?f=fb2", "?f=epub", "?f=djvu")) {
-                try {
-                    val res: Connection.Response = Jsoup
-                        .connect(url)
-                        .cookie("list_view_full_books", "1")
-                        .method(Connection.Method.GET)
-                        .execute()
-                    val doc: Document = res.parse()
-                    val str = doc.select("a.btn")
-                    val urlDownload = str.attr("href").toString().split("?")[0] + i
-                    val res2 = Jsoup
-                        .connect(urlDownload)
-                        .cookie("list_view_full_books", "1")
-                        .method(Connection.Method.GET)
-                        .execute()
-                    val doc2: Document = res2.parse()
-                    val urlFile = doc2.select("div.dnld-info").select("a").attr("href").toString()
-                    val res3 = Jsoup
-                        .connect(urlFile)
-                        .ignoreContentType(true)
-                        .referrer(urlDownload)
-                        .method(Connection.Method.GET)
-                        .execute()
-                    val bytes = res3.bodyAsBytes()
-                    val nameFile = res3.headers()["Content-Disposition"].toString()
-                        .split(";")[1].split("=")[1].drop(1)
-                    File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                        nameFile
-                    ).writeBytes(bytes)
-                    runOnUiThread {
-                        Toast.makeText(this, "Книга '$name' скачана", Toast.LENGTH_LONG).show()
-                    }
-                    flag = true
-                } catch (e: Exception) {
-                    Log.i("error", e.message.toString())
-                }
-            }
-            runOnUiThread {
-                if (!flag) {
-                    Toast.makeText(
-                        this,
-                        "Книга '$name' не скачана\nОшибка...",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
+
+    private fun optionBook(url: String, name: String) {
+        val intent = Intent(this, DownloadActivity::class.java)
+        intent.putExtra("url", url)
+        startActivity(intent)
     }
 
 
@@ -353,6 +414,7 @@ class SearchActivity : AppCompatActivity() {
             val divs = doc.select("div.slider").select("a")
             if (divs.size != 0) {
                 for (i in 0 until divs.size) {
+                    sleep(30)
                     runOnUiThread {
                         val urlGenre = divs[i].attr("href").toString()
                         val nameGenre = divs[i].select("div.popular_name").text().toString()
@@ -428,6 +490,7 @@ class SearchActivity : AppCompatActivity() {
             val divs = doc.select("div.card_info")
             if (divs.size != 0) {
                 for (i in 0 until divs.size) {
+                    sleep(50)
                     runOnUiThread {
                         val nameBook =
                             divs[i].select("div.book_name").select("a").text().toString()
@@ -437,11 +500,13 @@ class SearchActivity : AppCompatActivity() {
                         } else {
                             divs[i].select("span").text().toString()
                         }
-                        addCard(
-                            nameBook,
-                            urlBook,
-                            genreBook
-                        )
+                        if ("Черт из табакерки" !in nameBook) {
+                            addCardAuthors(
+                                nameBook,
+                                urlBook,
+                                genreBook
+                            )
+                        }
                     }
                 }
             } else {
