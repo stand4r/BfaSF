@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@drawable/background"
     tools:context=".HistoryActivity">
 
 
@@ -27,7 +27,8 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="579dp"
-        android:background="@drawable/gradienhistory"
+        android:layout_marginHorizontal="3dp"
+        android:background="@android:color/transparent"
         android:overScrollMode="ifContentScrolls"
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
@@ -38,8 +39,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginHorizontal="3dp">
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:id="@+id/lay2"

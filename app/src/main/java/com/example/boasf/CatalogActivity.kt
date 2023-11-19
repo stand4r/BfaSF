@@ -21,7 +21,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.inputmethod.EditorInfo
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +39,7 @@ import kotlin.concurrent.thread
 
 
 private const val REQUEST_CODE_SPEECH = 100
+private const val ELEM1 = "#15161E"
 
 class CatalogActivity : AppCompatActivity() {
     private var flag = true
@@ -51,7 +52,14 @@ class CatalogActivity : AppCompatActivity() {
             val uri: Uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID)
             startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
         }
+        findViewById<LinearLayout>(R.id.searchLayout).startAnimation(
+            AnimationUtils.loadAnimation(
+                this,
+                R.anim.shorttextanim
+            )
+        )
         thread { getGenres() }
+
         val editText = findViewById<View>(R.id.bookInput) as EditText
         editText.setOnKeyListener { v, keyCode, event ->
             var consumed = false
@@ -157,8 +165,6 @@ class CatalogActivity : AppCompatActivity() {
             searchlayout.visibility = VISIBLE
             val scrollLayout = findViewById<LinearLayout>(R.id.Lay1)
             scrollLayout.removeAllViews()
-            val genreTv = findViewById<TextView>(R.id.GenreTv)
-            genreTv.visibility = INVISIBLE
         }
         val ed = findViewById<EditText>(R.id.bookInput).text.toString()
         flag = true
@@ -234,7 +240,7 @@ class CatalogActivity : AppCompatActivity() {
         )
         linearParent.layoutParams = params3
         linearParent.orientation = LinearLayout.VERTICAL
-        linearParent.setBackgroundColor(Color.parseColor("#5777CA"))
+        linearParent.setBackgroundColor(Color.parseColor(ELEM1))
 
         val params2 = LinearLayout.LayoutParams(
             MATCH_PARENT,
@@ -244,7 +250,7 @@ class CatalogActivity : AppCompatActivity() {
         linear.layoutParams = params2
         linear.orientation = LinearLayout.HORIZONTAL
         linear.gravity = Gravity.TOP
-        linear.setBackgroundColor(Color.parseColor("#5777CA"))
+        linear.setBackgroundColor(Color.parseColor(ELEM1))
 
 
         txt.textSize = 15.0F
@@ -262,7 +268,7 @@ class CatalogActivity : AppCompatActivity() {
         btn.width = toPx(30)
         btn.text = "Подробнее"
         btn.setPadding(0, 0, toPx(10), 0)
-        btn.setBackgroundColor(Color.parseColor("#34699B"))
+        btn.setBackgroundColor(Color.parseColor(ELEM1))
         btn.setTextColor(Color.WHITE)
         btn.isAllCaps = false
         btn.textSize = 14.0F
@@ -324,7 +330,7 @@ class CatalogActivity : AppCompatActivity() {
 
         txt.textSize = 16.0F
         txt.updatePadding(toPx(10), toPx(3), toPx(10), 0)
-        txt.setTextColor(Color.WHITE)
+        txt.setTextColor(Color.parseColor("#ECECEC"))
         txt.text = nameGenre
         txt.isSingleLine = true
         txt.maxLines = 2
@@ -407,7 +413,7 @@ class CatalogActivity : AppCompatActivity() {
         card.elevation = 25.0F
         txt.textSize = 16.0F
         txt.setTextColor(Color.WHITE)
-        txt.setBackgroundColor(Color.parseColor("#5777CA"))
+        txt.setBackgroundColor(Color.parseColor(ELEM1))
         txt.text = "Книги не найдены"
         txt.height = toPx(50)
         txt.width = toPx(350)
@@ -438,7 +444,7 @@ class CatalogActivity : AppCompatActivity() {
         card.elevation = 25.0F
         txt.textSize = 16.0F
         txt.setTextColor(Color.WHITE)
-        txt.setBackgroundColor(Color.parseColor("#5777CA"))
+        txt.setBackgroundColor(Color.parseColor(ELEM1))
         txt.text = "Проблемы с сетью"
         txt.height = toPx(50)
         txt.width = toPx(350)

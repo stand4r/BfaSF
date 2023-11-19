@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.view.Gravity.*
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.Menu
@@ -37,6 +38,7 @@ import kotlin.concurrent.thread
 
 
 private const val URLSEARCH = "https://avidreaders.ru/s/"
+private const val URLSEARCHROYALLIB = "https://royallib.com/search/"
 private const val REQUEST_CODE_SPEECH = 100
 
 @Suppress("DEPRECATION")
@@ -75,6 +77,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         if (flag) {
             search()
         } else {
@@ -85,10 +88,6 @@ class SearchActivity : AppCompatActivity() {
 
     fun btnSearch(view: View) {
         search()
-        val unbut = findViewById<Button>(R.id.books)
-        unbut.isEnabled = true
-        val but = findViewById<Button>(R.id.authors)
-        but.isEnabled = true
     }
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -98,8 +97,8 @@ class SearchActivity : AppCompatActivity() {
             imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
         flag = false
-        val scrollView = findViewById<ScrollView>(R.id.scrollView2)
         val scrollLayout = findViewById<LinearLayout>(R.id.Lay1)
+        val scrollLayout2 = findViewById<LinearLayout>(R.id.Lay2)
         val btnSearch = findViewById<Button>(R.id.buttonSearch)
         val nameInput = findViewById<TextInputEditText>(R.id.bookInput)
         btnSearch.isEnabled = false
@@ -107,19 +106,20 @@ class SearchActivity : AppCompatActivity() {
         if (name != "") {
             try {
                 scrollLayout.removeAllViews()
-            } catch (_: Exception) {
-            }
+                scrollLayout2.removeAllViews()
+            } catch (_: Exception) { }
             thread {
                 getAuthors(name)
                 getBooks(name)
             }
-            scrollView.visibility = VISIBLE
         } else {
             try {
                 scrollLayout.removeAllViews()
-            } catch (_: Exception) {
-            }
+                scrollLayout2.removeAllViews()
+
+            } catch (_: Exception) { }
             addInputEmpty()
+            addInputEmptyTwo()
         }
         btnSearch.isEnabled = true
     }
@@ -131,8 +131,6 @@ class SearchActivity : AppCompatActivity() {
         val unbut = findViewById<Button>(R.id.books)
         scroll.visibility = VISIBLE
         unscroll.visibility = INVISIBLE
-        but.isEnabled = false
-        unbut.isEnabled = true
         but.typeface = DEFAULT_BOLD
         but.textSize = 19F
         unbut.textSize = 15F
@@ -145,8 +143,6 @@ class SearchActivity : AppCompatActivity() {
         val unbut = findViewById<Button>(R.id.books)
         scroll.visibility = INVISIBLE
         unscroll.visibility = VISIBLE
-        but.isEnabled = true
-        unbut.isEnabled = false
         unbut.typeface = DEFAULT_BOLD
         unbut.textSize = 19F
         but.textSize = 15F
@@ -214,6 +210,44 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             } else {
+                runOnUiThread { addCardNullTwo() }
+            }
+        }
+    }
+
+
+    private fun getBooksRoyallib(name: String) {
+        if (name != "") {
+            val res: Connection.Response = Jsoup
+                .connect(URLSEARCHROYALLIB)
+                .data("to", "result")
+                .data("q", name)
+                .method(Connection.Method.POST)
+                .execute()
+            val doc: Document = res.parse()
+            
+            val divs = doc.select("table").select("tbody").select("tr")[2].select("td")
+                .select("table").select("tbody").select("tr")
+            Log.i("tags", divs.toString())
+            if (divs.size != 0) {
+                for (i in 1 until divs.size) {
+                    sleep(50)
+                    val x = divs.select("td")
+                    val nameBook = x[0].select("a").text().toString()
+                    val urlBook = x[0].select("a").attr("href").toString()
+                    val genreBook = x[1].select("a").text().toString()
+                    Log.i("books", nameBook)
+                    runOnUiThread {
+                        if ("Черт из табакерки" !in nameBook) {
+                            addCard(
+                                nameBook,
+                                urlBook,
+                                genreBook
+                            )
+                        }
+                    }
+                }
+            } else {
                 runOnUiThread { addCardNull() }
             }
         }
@@ -248,7 +282,7 @@ class SearchActivity : AppCompatActivity() {
         )
         linearParent.layoutParams = params3
         linearParent.orientation = LinearLayout.VERTICAL
-        linearParent.setBackgroundColor(parseColor("#5777CA"))
+        linearParent.setBackgroundColor(parseColor("#222327"))
 
         val params2 = LinearLayout.LayoutParams(
             MATCH_PARENT,
@@ -258,7 +292,7 @@ class SearchActivity : AppCompatActivity() {
         linear.layoutParams = params2
         linear.orientation = LinearLayout.HORIZONTAL
         linear.gravity = TOP
-        linear.setBackgroundColor(parseColor("#5777CA"))
+        linear.setBackgroundColor(parseColor("#222327"))
 
 
         txt.textSize = 15.0F
@@ -278,7 +312,7 @@ class SearchActivity : AppCompatActivity() {
         btn.height = WRAP_CONTENT
         btn.text = "Подробнее"
         btn.setPadding(0, 0, toPx(10), 0)
-        btn.setBackgroundColor(parseColor("#7734699B"))
+        btn.setBackgroundColor(parseColor("#222327"))
         btn.setTextColor(Color.WHITE)
         btn.isAllCaps = false
         btn.textSize = 12.0F
@@ -335,7 +369,7 @@ class SearchActivity : AppCompatActivity() {
         )
         linearParent.layoutParams = params3
         linearParent.orientation = LinearLayout.VERTICAL
-        linearParent.setBackgroundColor(parseColor("#5777CA"))
+        linearParent.setBackgroundColor(parseColor("#222327"))
 
         val params2 = LinearLayout.LayoutParams(
             MATCH_PARENT,
@@ -345,7 +379,7 @@ class SearchActivity : AppCompatActivity() {
         linear.layoutParams = params2
         linear.orientation = LinearLayout.HORIZONTAL
         linear.gravity = TOP
-        linear.setBackgroundColor(parseColor("#5777CA"))
+        linear.setBackgroundColor(parseColor("#222327"))
 
 
         txt.textSize = 15.0F
@@ -365,7 +399,7 @@ class SearchActivity : AppCompatActivity() {
         btn.height = WRAP_CONTENT
         btn.text = "Подробнее"
         btn.setPadding(0, 0, toPx(10), 0)
-        btn.setBackgroundColor(parseColor("#7734699B"))
+        btn.setBackgroundColor(parseColor("#222327"))
         btn.setTextColor(Color.WHITE)
         btn.isAllCaps = false
         btn.textSize = 12.0F
@@ -452,7 +486,7 @@ class SearchActivity : AppCompatActivity() {
         params2.setMargins(0, 0, 0, 0)
         linear.layoutParams = params2
         linear.orientation = LinearLayout.HORIZONTAL
-        linear.setBackgroundColor(parseColor("#5777CA"))
+        linear.setBackgroundColor(parseColor("#222327"))
         linear.updatePadding(20, 0, 0, 0)
         linear.setOnClickListener {
             selectGenre(urlGenre)
@@ -534,7 +568,7 @@ class SearchActivity : AppCompatActivity() {
         card.elevation = 25.0F
         txt.textSize = 16.0F
         txt.setTextColor(Color.WHITE)
-        txt.setBackgroundColor(parseColor("#5777CA"))
+        txt.setBackgroundColor(parseColor("#222327"))
         txt.text = "Ничего не найдено"
         txt.height = toPx(50)
         txt.width = toPx(350)
@@ -546,9 +580,8 @@ class SearchActivity : AppCompatActivity() {
         parentLayout.addView(card)
     }
 
-    private fun addInputEmpty() {
-        val parentLayout = findViewById<LinearLayout>(R.id.Lay1)
-        val scroll = findViewById<ScrollView>(R.id.scrollView2)
+    private fun addCardNullTwo() {
+        val parentLayout = findViewById<LinearLayout>(R.id.Lay2)
         val card = CardView(this)
         val txt = TextView(this)
         val params = LinearLayout.LayoutParams(
@@ -563,7 +596,35 @@ class SearchActivity : AppCompatActivity() {
         card.elevation = 25.0F
         txt.textSize = 16.0F
         txt.setTextColor(Color.WHITE)
-        txt.setBackgroundColor(parseColor("#5777CA"))
+        txt.setBackgroundColor(parseColor("#222327"))
+        txt.text = "Ничего не найдено"
+        txt.height = toPx(50)
+        txt.width = toPx(350)
+        txt.maxLines = 1
+        txt.setTypeface(null, ITALIC)
+        txt.textAlignment = TEXT_ALIGNMENT_CENTER
+        txt.gravity = CENTER_VERTICAL
+        card.addView(txt)
+        parentLayout.addView(card)
+    }
+
+    private fun addInputEmpty() {
+        val parentLayout = findViewById<LinearLayout>(R.id.Lay1)
+        val card = CardView(this)
+        val txt = TextView(this)
+        val params = LinearLayout.LayoutParams(
+            WRAP_CONTENT,
+            WRAP_CONTENT,
+        )
+        params.setMargins(40, 20, 40, 20)
+        params.gravity = CENTER
+        card.layoutParams = params
+        card.radius = 30.0F
+        card.useCompatPadding = true
+        card.elevation = 25.0F
+        txt.textSize = 16.0F
+        txt.setTextColor(Color.WHITE)
+        txt.setBackgroundColor(parseColor("#222327"))
         txt.text = "Введите название книги или автора"
         txt.height = toPx(50)
         txt.width = toPx(350)
@@ -573,6 +634,33 @@ class SearchActivity : AppCompatActivity() {
         txt.gravity = CENTER_VERTICAL
         card.addView(txt)
         parentLayout.addView(card)
-        scroll.visibility = VISIBLE
+    }
+
+    private fun addInputEmptyTwo() {
+        val parentLayout = findViewById<LinearLayout>(R.id.Lay2)
+        val card = CardView(this)
+        val txt = TextView(this)
+        val params = LinearLayout.LayoutParams(
+            WRAP_CONTENT,
+            WRAP_CONTENT,
+        )
+        params.setMargins(40, 20, 40, 20)
+        params.gravity = CENTER
+        card.layoutParams = params
+        card.radius = 30.0F
+        card.useCompatPadding = true
+        card.elevation = 25.0F
+        txt.textSize = 16.0F
+        txt.setTextColor(Color.WHITE)
+        txt.setBackgroundColor(parseColor("#222327"))
+        txt.text = "Введите название книги или автора"
+        txt.height = toPx(50)
+        txt.width = toPx(350)
+        txt.maxLines = 1
+        txt.setTypeface(null, ITALIC)
+        txt.textAlignment = TEXT_ALIGNMENT_CENTER
+        txt.gravity = CENTER_VERTICAL
+        card.addView(txt)
+        parentLayout.addView(card)
     }
 }

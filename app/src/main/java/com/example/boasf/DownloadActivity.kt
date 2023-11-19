@@ -74,7 +74,6 @@ class DownloadActivity : AppCompatActivity() {
                         findViewById<TextView>(R.id.option).text.toString() + "\n  " + i.text()
                 }
                 val title = doc.select("h2.margin-btm").text().toString()
-                findViewById<TextView>(R.id.title).text = title
                 val formats = doc.select("div.format_download")
                 for (i in 0 until formats.size - 1) {
                     btn[i].visibility = VISIBLE

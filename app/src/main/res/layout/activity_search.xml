@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@drawable/background"
     android:visibility="visible"
     tools:context=".SearchActivity">
 
     <Button
         android:id="@+id/books"
         android:layout_width="150dp"
-        android:layout_height="40dp"
+        android:layout_height="22dp"
         android:layout_marginTop="52dp"
         android:background="@android:color/transparent"
+        android:enabled="true"
         android:onClick="booksView"
-        android:enabled="false"
         android:text="Книги"
         android:textAllCaps="false"
         android:textSize="15sp"
@@ -25,6 +25,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="29dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="16dp"
+        android:rotation="90"
+        android:scaleX="2"
+        android:scaleY="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_remove_24" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,10 +53,10 @@
         android:paddingVertical="10px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.539"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.141">
+        app:layout_constraintVertical_bias="0.045">
 
         <ImageButton
             android:id="@+id/speakButton"
@@ -110,30 +125,35 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="29dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:rotation="90"
-        android:scaleX="2"
-        android:scaleY="0.5"
+    <Button
+        android:id="@+id/authors"
+        android:layout_width="150dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="52dp"
+        android:background="@android:color/transparent"
+        android:enabled="true"
+        android:onClick="authorsView"
+        android:outlineProvider="none"
+        android:pointerIcon="none"
+        android:text="Авторы"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.964"
-        app:srcCompat="@drawable/baseline_remove_24" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="388dp"
-        android:layout_height="544dp"
+        android:layout_width="381dp"
+        android:layout_height="620dp"
         android:clickable="true"
         android:paddingTop="10px"
         android:paddingBottom="10px"
         android:scrollbars="none"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
@@ -156,8 +176,8 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="388dp"
-        android:layout_height="544dp"
+        android:layout_width="381dp"
+        android:layout_height="620dp"
         android:clickable="true"
         android:paddingTop="10px"
         android:paddingBottom="10px"
@@ -182,43 +202,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Поиск"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/authors"
-        android:layout_width="150dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="52dp"
-        android:background="@android:color/transparent"
-        android:onClick="authorsView"
-        android:outlineProvider="none"
-        android:pointerIcon="none"
-        android:enabled="false"
-        android:text="Авторы"
-        android:textAllCaps="false"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
